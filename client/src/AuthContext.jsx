@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
     const [token, setToken] = useState(localStorage.getItem('token'));
 
     const login = async (email, password) => {
-        const res = await axios.post('https://daily-log-api-tan.vercel.app/api/auth/login', { email, password });
+        const res = await axios.post('https://daily-log-api-tan.vercel.app/auth/login', { email, password });
         setToken(res.data.token);
         setUser(res.data.user);
         localStorage.setItem('token', res.data.token);
