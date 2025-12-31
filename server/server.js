@@ -21,5 +21,9 @@ mongoose.connect(process.env.MONGO_URI || "mongodb+srv://yashmandali211:root@yas
 app.use('/api/auth', authRoutes);
 app.use('/api/logs', logRoutes);
 
+app.get("/ping", (res,req) => {
+    res.send("ping coming")
+})
+    
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
