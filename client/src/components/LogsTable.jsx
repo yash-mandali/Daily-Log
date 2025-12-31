@@ -13,7 +13,7 @@ const LogsTable = ({ logs, onDelete }) => {
         if (window.confirm('Are you sure you want to delete this work entry?')) {
             setDeletingId(logId);
             try {
-                await axios.delete(`http://localhost:5001/api/logs/${logId}`, {
+                await axios.delete(`https://daily-log-api-tan.vercel.app/api/logs/${logId}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 onDelete(); // Refresh the logs

@@ -18,7 +18,7 @@ const AddLog = ({ onAdd }) => {
 
         setLoading(true);
         try {
-            await axios.post('http://localhost:5001/api/logs', { date, work, isHoliday }, {
+            await axios.post('https://daily-log-api-tan.vercel.app/api/logs', { date, work, isHoliday }, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             setWork('');

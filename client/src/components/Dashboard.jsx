@@ -17,7 +17,7 @@ const Dashboard = () => {
     const fetchLogs = async () => {
         setLoading(true);
         try {
-            const res = await axios.get('http://localhost:5001/api/logs', {
+            const res = await axios.get('https://daily-log-api-tan.vercel.app/api/logs', {
                 headers: { Authorization: `Bearer ${token}` },
             });
             setLogs(res.data);
