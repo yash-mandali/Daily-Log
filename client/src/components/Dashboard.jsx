@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../AuthContext';
 import { useTheme } from '../ThemeContext';
@@ -13,6 +14,7 @@ const Dashboard = () => {
     const [activeTab, setActiveTab] = useState('logs');
     const [loading, setLoading] = useState(true);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const navigate = useNavigate();
 
     const fetchLogs = async () => {
         setLoading(true);
@@ -31,6 +33,11 @@ const Dashboard = () => {
     useEffect(() => {
         fetchLogs();
     }, []);
+
+    const handleLogout = () => {
+        logout();
+        navigate('/login');
+    };
 
     return (
         <div className={`min-h-screen bg-linear-to-br ${isDark ? 'from-gray-900 to-gray-800' : 'from-blue-50 to-indigo-100'}`}>
@@ -51,17 +58,13 @@ const Dashboard = () => {
                         <div className="hidden lg:flex items-center space-x-4">
                             <button
                                 onClick={toggleTheme}
-                                className={`p-2 rounded-lg transition duration-200 ${isDark ? 'text-yellow-400 hover:bg-gray-700' : 'text-gray-600 hover:bg-gray-100'}`}
+                                className={`p-2  rounded-lg transition duration-200 ${isDark ? 'text-yellow-400 hover:bg-gray-700' : 'text-gray-600 hover:bg-gray-100'}`}
                                 title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
                             >
                                 {isDark ? <FaSun className="w-5 h-5" /> : <FaMoon className="w-5 h-5" />}
                             </button>
-                            <div className={`flex items-center space-x-2 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-                                <FaUser className={isDark ? 'text-gray-400' : 'text-gray-500'} />
-                                <span className="font-medium">{user?.username}</span>
-                            </div>
                             <button
-                                onClick={logout}
+                                onClick={handleLogout}
                                 className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition duration-200 ${isDark
                                     ? 'bg-red-600 hover:bg-red-700 text-white'
                                     : 'bg-red-500 hover:bg-red-600 text-white'
@@ -86,7 +89,7 @@ const Dashboard = () => {
                                 <span className="font-medium text-sm">{user?.username}</span>
                             </div>
                             <button
-                                onClick={logout}
+                                onClick={handleLogout}
                                 className={`flex items-center px-3 py-2 rounded-lg transition duration-200 text-sm ${isDark
                                     ? 'bg-red-600 hover:bg-red-700 text-white'
                                     : 'bg-red-500 hover:bg-red-600 text-white'
@@ -125,7 +128,7 @@ const Dashboard = () => {
                                 </div>
                                 <button
                                     onClick={() => {
-                                        logout();
+                                        handleLogout();
                                         setMobileMenuOpen(false);
                                     }}
                                     className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition duration-200 text-sm ${isDark
@@ -180,7 +183,7 @@ const Dashboard = () => {
                                     <div className={`animate-spin rounded-full h-8 w-8 sm:h-12 sm:w-12 border-b-2 ${isDark ? 'border-blue-400' : 'border-blue-500'}`}></div>
                                 </div>
                             ) : (
-                                <LogsTable logs={logs} onDelete={fetchLogs} />
+                                <LogsTable logs={logs} onDelete={fetchLogs} onUpdate={fetchLogs} />
                             )
                         )}
                     </div>

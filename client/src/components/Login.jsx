@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import { useTheme } from '../ThemeContext';
 import { FaEnvelope, FaLock, FaSignInAlt } from 'react-icons/fa';
@@ -10,6 +11,7 @@ const Login = () => {
     const [error, setError] = useState('');
     const { login } = useAuth();
     const { isDark } = useTheme();
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -17,6 +19,7 @@ const Login = () => {
         setError('');
         try {
             await login(email, password);
+            navigate('/dashboard');
         } catch (err) {
             setError('Login failed. Please check your credentials.');
         } finally {
@@ -97,6 +100,14 @@ const Login = () => {
                             </>
                         )}
                     </button>
+                    <div className="text-center">
+                        <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                            Don't have an account?{' '}
+                            <Link to="/signup" className={`font-medium ${isDark ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-500'}`}>
+                                Sign up
+                            </Link>
+                        </p>
+                    </div>
                 </form>
             </div>
         </div>

@@ -51,4 +51,22 @@ router.delete('/:id', auth, async (req, res) => {
     }
 });
 
+// Update log
+router.put('/:id', auth, async (req, res) => {
+    const { date, work, isHoliday } = req.body;
+    try {
+        const log = await DailyLog.findOneAndUpdate(
+            { _id: req.params.id, user: req.user },
+            { date, work, isHoliday },
+            { new: true }
+        );
+        if (!log) {
+            return res.status(404).json({ error: 'Log not found' });
+        }
+        res.json(log);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
 module.exports = router;

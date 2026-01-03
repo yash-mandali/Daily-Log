@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import { useTheme } from '../ThemeContext';
 import { FaUser, FaEnvelope, FaLock, FaUserPlus } from 'react-icons/fa';
@@ -11,6 +12,7 @@ const Signup = () => {
     const [error, setError] = useState('');
     const { signup } = useAuth();
     const { isDark } = useTheme();
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -18,7 +20,7 @@ const Signup = () => {
         setError('');
         try {
             await signup(username, email, password);
-            alert('Account created successfully! Please login.');
+            navigate('/login');
         } catch (err) {
             setError('Signup failed. Please try again.');
         } finally {
@@ -115,6 +117,14 @@ const Signup = () => {
                             </>
                         )}
                     </button>
+                    <div className="text-center">
+                        <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                            Already have an account?{' '}
+                            <Link to="/login" className={`font-medium ${isDark ? 'text-green-400 hover:text-green-300' : 'text-green-600 hover:text-green-500'}`}>
+                                Sign in
+                            </Link>
+                        </p>
+                    </div>
                 </form>
             </div>
         </div>
